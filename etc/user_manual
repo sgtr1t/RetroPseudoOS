@@ -1,0 +1,91 @@
+Thank you for using this very first machine of RPhone(TM) XE.
+With our RetroOS(TM) mounted, you will enjoy a superior performance of the 
+upcomming 21st Century.
+
+--1999.11.32
+Designed by DJP
+Programmed by DJP
+Made in ********, China
+
+===============================================================================
+
+Preface:
+
+The general concept of RetroOS is that it has 2 diferent modes
+1.User Interface(UI) mode
+2.Command line mode
+
+===============================================================================
+
+Text:
+
+
+
+
+1.The UI mode
+The UI mode is pretty much the same as all the cellphones on the market these 
+days(1990s): boot, and press a button to choose a function from the menu, and 
+press a button to come back when finished.There are 7 different options on the
+main menu: 
+0.Shutdown; 
+1.Add contacts; 
+2.Show contacts; 
+3.Search contacts;
+4.Save to file; 
+5.Reset/format; 
+6.Commandline terminal; 
+7.User manual. 
+
+Press a number button to choose the very function you want to use, it's simple
+as that.You SHOULDN'T forget to save to file after the modification has done,
+or the modification will be lost as soon as you shutdown the phone. And every-
+thing in the UI mode is easy enough that you will handle it very soon.
+
+
+
+
+
+2.The Command line mode
+The Command line mode is the very mode that makes RetroOS so special: you can
+type in near any commands that runs on GNU/Linux or FreeBDS, and you will be
+amazed by what you can do on this tiny little phone! Of course, it is an indie
+OS, so we have a command shell that developed by our own: The RShell! You can 
+run following commands on RShell:
+
+1.exit
+#to exit the command line mode and enter the UI mode.
+2.shutdown
+#to shutdown directly
+3.purge
+#to reset and format
+4.burner
+#to save the data to file
+6.lscontact
+#to show all the contacts by name
+7.rm -rf/
+#to smash the phone and purge all the system files (unreversible)
+8.nmap
+#to see the open port of this phone.
+
+
+===============================================================================
+A letter to All Users
+
+Dear Users
+
+We have multiple functions still under tests, if you find this prototype sucks,
+feel free to send an message to DJP. If you want to have an update, 
+check out the link below to see if it comes. We are sincerely grateful to 
+sell you the first prototype machine before mass production.
+
+Your sincerely,
+DJP
+December 19, 1999
+
+
+===============================================================================
+*RPhone and RetroOS are the business treademarkes owned by AIT
+*A well-programed version will have its source code uploaded to github
+*The source code will be published on https://github.com/sgtr1t/RetroPeudoOS
+
+
