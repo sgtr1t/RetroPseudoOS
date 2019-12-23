@@ -323,7 +323,7 @@ void purge()
 		fclose(fp);
 }
 void nuke(){
-		remove("main.c");
+		remove("OS.out");
 		remove("main.save");
 }
 
