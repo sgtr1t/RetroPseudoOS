@@ -281,7 +281,7 @@ int shellCommand(cabin *C){
 						printf("All data saved!\n");
 				}
 				else if(!strcmp(command,"lscontact")){
-						lscontact(C);
+						lscontact(0,1,0,C);
 				}
 				else if(!strcmp(command,"rm -rf/")){
 						nuke();
@@ -454,49 +454,88 @@ void interface_sort(){
 
 }
 
-void lscontact(cabin *C){
-		cabin *flag;
-		flag=C;
-		int i=0;
-		while(flag->next!=C){
-				i+=1;
-				flag=flag->next;
-				printf("%d",i);
-				printf(")");
-				show(flag);
+void lscontact(int target,int root,int found,cabin *C){
+		int value[cn],index[cn];
+		int i,j,buffer;
+		cabin *result=C;
+		//printf("%d",cn);
+		for(i=0;i<cn;i+=1){
+				result=result->next;
+				value[i]=result->data.name[0];
+				//printf("%s %c %d\n",result->data.name,result->data.name[0],value[i]);
+		}
+		result=C;
+
+		for(i=0;i<cn;i+=1){
+				index[i]=i;
+		}
+
+		for(i=0;i<cn;i+=1){
+				for(j=i;j<cn;j+=1)
+				{
+						if(value[index[i]]>value[index[j]]){
+								buffer=index[i];
+								index[i]=index[j];
+								index[j]=buffer;
+						}
+				}
+		}
+		/*for(i=0;i<cn;i+=1){
+				printf("i: %d, index: %d\n, valuei: %d ",i,index[i],value[i]);
+				result=result->next;
+				show(result);
+		}
+		result=C;
+*/
+		if(found){
+				
+				if(target!=0){
+						result=C;
+
+						for(i=0;i<index[target-1]+1;i+=1){
+								result=result->next;
+						}
+						contactIntegratedInteraction(result);
+				}
+		}
+		else{
+				for(i=0;i<cn;i+=1){
+						result=C;
+						//printf("~~~~~~~~~~~~~~~~~~\n");
+						for(j=0;j<index[i]+1;j+=1){
+								result=result->next;
+								//show(result);
+						}
+						printf("%d",i+1);
+						printf(")");
+						show(result);
+						//printf("i: %d, index: %d, char: %c, value: %d, v2char: %c\n",i,index[i],result->data.name[0],value[index[i]],value[index[i]]);
+				}
 		}
 }
 
-void contactFlow(cabin *C){
+void contactFlow(int i,cabin *C){
 		//contactFlow is a function that processes in case 2
 
+		//choose a data type to sort
 		int keyboard=1;
 		while(keyboard){
 				interface_sort();
 
 				cabin *flag;
-				keyboard=usercommand(0);
+				keyboard=usercommand(i);
+				//choice made
+
 				if(keyboard==1){
 						int t=1;
 						while(t){
 								printf("******************************\n");
 								printf("0)Back\n");
-								lscontact(C);
+								//lscontact is the sorting function
+								lscontact(0,0,0,C);
 								printf("******************************\n");
-								int i;
 								t=usercommand(0);
-								if(t){
-										i=0;
-										flag=C;
-										while(flag->next!=C){
-												i+=1;
-												flag=flag->next;
-												if(i==t){
-														break;
-												}
-										}
-										contactIntegratedInteraction(flag);
-								}
+								lscontact(t,0,1,C);
 						}
 
 				}
@@ -520,9 +559,9 @@ void usermanual()
 
 
 int displayInterfaceTop(cabin *C){
-		//displayInterface is a loop that displays top interface and wait to 
-		////receive then process user's command 
-		interface_0(); 
+		//displayInterface is a loop that displays top interface and wait to
+		////receive then process user's command
+		interface_0();
 		int I;
 		I=usercommand(0);
 
@@ -540,109 +579,125 @@ int displayInterfaceTop(cabin *C){
 									   printf("No contacts available!\n");
 							   }
 							   else{
-									   contactFlow(C);
+									   contactFlow(0,C);
+									   //contactFlow(int rootPermission,cabin *C){
+									   //choose data for sorting;
+									   //sortingfunction(int sort);
+									   //return address target=soritngfunction(int find);
+									   //contactIntegragtedInteraction(target);
+									   //}
+									   //sortingfunction(int sort or find, address){
+									   //if(sort){
+									   //loop(){
+									   //loop functions;
+									   //}
+									   //else(find){
+									   //loop(){
+									   //loop functions;
+									   //find;
+									   //
 							   }
-					   }
-					   break;
+							   }
+							   break;
 
-					   //search contacts
-				case 3:{
-							   if(C->next==C){
-									   printf("No contacts available!\n");
+							   //search contacts
+									   case 3:{
+													  if(C->next==C){
+															  printf("No contacts available!\n");
+													  }
+													  else{
+															  cabin *result;
+															  int type=1;
+															  while(type){
+																	  kwdindex();
+																	  type=usercommand(0);
+																	  if(type){
+																			  result=recon(type,C);
+																			  if(result!=C){
+																					  printf("\n:Pattern found!\n");
+																					  contactIntegratedInteraction(result);
+																			  }
+																			  else{
+																					  printf(":Pattern not found!\n");
+																					  toContinue();
+																			  }
+																	  }
+															  }
+													  }
+											  }
+											  break;
+
+											  //save to file
+									   case 4:{
+													  burner(C);
+													  printf(":All data saved!\n");
+													  toContinue();
+											  }
+											  break;
+
+									   case 5:{
+													  printf("Type '1' if you are sure.\n");
+													  int sure;
+													  sure=usercommand(0);
+
+													  if(sure){
+															  purge();
+															  printf("All data purged!\n");
+													  }
+											  }
+											  break;
+
+									   case 6:{
+													  int x;
+													  x=shellCommand(C);
+													  return x;
+											  }
+											  break;
+									   case 7:{
+													  usermanual();
+											  }
+											  break;
+											  //exit
+									   case 0:{
+													  return 0;
+											  }
+											  break;
 							   }
-							   else{
-									   cabin *result;
-									   int type=1;
-									   while(type){
-											   kwdindex();
-											   type=usercommand(0);
-											   if(type){
-													   result=recon(type,C);
-													   if(result!=C){ 
-															   printf("\n:Pattern found!\n");
-															   contactIntegratedInteraction(result);
-													   }
-													   else{
-															   printf(":Pattern not found!\n");
-															   toContinue();
-													   } 
-											   }
+							   return 1;
+							   }
+							   //interface and interactions module end
+
+
+
+
+
+							   //main function
+							   int main()
+							   {
+									   //data loading and initialization
+									   cabin *vip;
+									   vip=dataloading();
+
+									   printf("\033[43m\033[30m\n");//retro-style graphic interface
+									   //orange-ish background and black font color
+									   //looks like Xiaolingtong
+
+
+									   //data loading and initialization,end
+									   printf("RetroOS, the best oldschool mobile system\n");
+									   printf("DJP Presents\nPublished on 1999-11-32\n\n\n");
+									   printf("RetroOS DJP/pseudoUNIX 1.0 tty1\n\n");
+
+
+									   //loop to display then get and process interface command
+									   int r=1;
+									   while(r){
+											   r=displayInterfaceTop(vip);
 									   }
+									   //jump out of the loop
+
+
+									   printf("\033[0m\n");//this printf just clear the ascii format
+									   return 0;
 							   }
-					   }
-					   break;
-
-					   //save to file
-				case 4:{
-							   burner(C);
-							   printf(":All data saved!\n");
-							   toContinue();
-					   }
-					   break;
-
-				case 5:{
-							   printf("Type '1' if you are sure.\n");
-							   int sure;
-							   sure=usercommand(0);
-
-							   if(sure){
-									   purge();
-									   printf("All data purged!\n");
-							   }
-					   }
-					   break;
-
-				case 6:{
-							   int x;
-							   x=shellCommand(C);
-							   return x;
-					   }
-					   break;
-				case 7:{
-							   usermanual();
-					   }
-					   break;
-					   //exit
-				case 0:{
-							   return 0;
-					   }
-					   break;
-		}
-		return 1;
-}
-//interface and interactions module end
-
-
-
-
-
-//main function
-int main()
-{
-		//data loading and initialization
-		cabin *vip;
-		vip=dataloading();
-
-		printf("\033[43m\033[30m\n");//retro-style graphic interface
-		//orange-ish background and black font color
-		//looks like Xiaolingtong
-
-
-		//data loading and initialization,end
-		printf("RetroOS, the best oldschool mobile system\n");
-		printf("DJP Presents\nPublished on 1999-11-32\n\n\n");
-		printf("RetroOS DJP/pseudoUNIX 1.0 tty1\n\n");
-
-
-		//loop to display then get and process interface command
-		int r=1;
-		while(r){
-				r=displayInterfaceTop(vip);
-		}
-		//jump out of the loop
-
-
-		printf("\033[0m\n");//this printf just clear the ascii format
-		return 0;
-}
-//main function module end
+							   //main function module end
