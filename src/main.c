@@ -5,10 +5,6 @@
 
 int cn=0;
 
-
-
-
-
 //data structure
 typedef struct {
 		char name[MAX];
@@ -26,6 +22,99 @@ typedef struct cabin{
 		struct cabin *next;
 }cabin;
 //data structure module end
+
+
+//functions
+
+cabin *jedi();
+
+cabin *newcontact(cabin *C);
+
+void cinput(char C[]);
+
+long long longlonginput();
+
+void datainput(cabin *newbee);
+
+void toContinue();
+
+void contactIntegratedInteraction(cabin *C);
+
+void manualedit(cabin *C);
+
+void show(cabin *C);
+
+void call(cabin *C);
+
+void text(cabin *C);
+
+void showdetail(cabin *C);
+
+void deletion(cabin *C);
+
+int usercommand();
+
+void interface_1();
+
+void kwdindex();
+
+void interface_0();
+
+void interface_sort();
+
+void lscontact(int target,int root,int found,cabin *C);
+
+void contactFlow(int i,cabin *C);
+
+void usermanual();
+
+int displayInterfaceTop(cabin *C);
+
+void lscontact();
+
+void purge();
+
+cabin *dataloading();
+
+void burner();
+
+void nuke();
+
+void fileBrowser();
+
+//funcion block end
+
+
+//main function
+int main()
+{
+		//data loading and initialization
+		cabin *vip;
+		vip=dataloading();
+
+		printf("\033[43m\033[30m\n");//retro-style graphic interface
+		//orange-ish background and black font color
+		//looks like Xiaolingtong
+
+
+		//data loading and initialization,end
+		printf("RetroOS, the best oldschool mobile system\n");
+		printf("DJP Presents\nPublished on 1999-11-32\n\n\n");
+		printf("RetroOS DJP/pseudoUNIX 1.0 tty1\n\n");
+
+
+		//loop to display then get and process interface command
+		int r=1;
+		while(r){
+				r=displayInterfaceTop(vip);
+		}
+		//jump out of the loop
+
+
+		printf("\033[0m\n");//this printf just clear the ascii format
+		return 0;
+}
+//main function module end
 
 
 
@@ -99,15 +188,6 @@ void datainput(cabin *newbee){
 
 		printf("\n:Contact added!\n");
 }
-
-void showdetail();
-void datainput();
-void deletion();
-int usercommand();
-void interface_1();
-void kwdindex();
-void text();
-void call();
 
 void toContinue(){
 		printf("\nPress a button to continue\n");
@@ -197,7 +277,6 @@ void deletion(cabin *C){
 		cn+=-1;
 }
 
-int usercommand();
 
 cabin *recon(int I,cabin *C){
 		int i=I;
@@ -253,12 +332,6 @@ cabin *recon(int I,cabin *C){
 		}
 
 }
-
-void lscontact();
-void purge();
-void burner();
-void nuke();
-
 
 int shellCommand(cabin *C){
 		while(1){
@@ -652,36 +725,3 @@ int displayInterfaceTop(cabin *C){
 //interface and interactions module end
 
 
-
-
-
-//main function
-int main()
-{
-		//data loading and initialization
-		cabin *vip;
-		vip=dataloading();
-
-		printf("\033[43m\033[30m\n");//retro-style graphic interface
-		//orange-ish background and black font color
-		//looks like Xiaolingtong
-
-
-		//data loading and initialization,end
-		printf("RetroOS, the best oldschool mobile system\n");
-		printf("DJP Presents\nPublished on 1999-11-32\n\n\n");
-		printf("RetroOS DJP/pseudoUNIX 1.0 tty1\n\n");
-
-
-		//loop to display then get and process interface command
-		int r=1;
-		while(r){
-				r=displayInterfaceTop(vip);
-		}
-		//jump out of the loop
-
-
-		printf("\033[0m\n");//this printf just clear the ascii format
-		return 0;
-}
-//main function module end
