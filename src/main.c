@@ -41,9 +41,9 @@ void rpContactInput(RPdata *newbee);
 
 void rpContinue();
 
-void contactIntegratedInteraction(RPdata *C);
+void rpContactMenu(RPdata *C);
 
-void manualedit(RPdata *C);
+void rpUI_1(RPdata *C);
 
 void rpShowName(RPdata *C);
 
@@ -55,33 +55,31 @@ void rpContactDetail(RPdata *C);
 
 void rpContactDelete(RPdata *C);
 
-int usercommand();
+int rpShellInput(int s);
 
-void interface_1();
+void rpContactMenu_Screen();
 
-void kwdindex();
+void rpUI_3_Screen();
 
-void interface_0();
+void rpUI_Main_Screen();
 
-void interface_sort();
+void rpUI_2_Screen();
 
-void lscontact(int target,int root,int found,RPdata *C);
+void rpContactList(int target,int root,int found,RPdata *C);
 
-void contactFlow(int i,RPdata *C);
+void rpUI_2(int i,RPdata *C);
 
-void usermanual();
+void rpUserManual();
 
-int displayInterfaceTop(RPdata *C);
-
-void lscontact();
+int rpUI_Main(RPdata *C);
 
 void rpFilePurge();
 
-RPdata *dataloading();
+RPdata *rpFileLoad();
 
 void rpFileBurner();
 
-void rpNuke();
+void rpFileNuke();
 
 void rpFileBrowse();
 //********************
@@ -93,7 +91,7 @@ int main()
 {
 	//data loading and initialization
 	RPdata *vip;
-	vip=dataloading();
+	vip=rpFileLoad();
 
 	printf("\033[43m\033[30m\n");//retro-style graphic interface
 	//orange-ish background and black font color
@@ -109,7 +107,7 @@ int main()
 	//loop to display then get and process interface command
 	int r=1;
 	while(r){
-		r=displayInterfaceTop(vip);
+		r=rpUI_Main(vip);
 	}
 	//jump out of the loop
 
@@ -192,11 +190,11 @@ void rpContinue(){
 	printf("\033[2J");
 }
 
-void contactIntegratedInteraction(RPdata *C){
+void rpContactMenu(RPdata *C){
 	int t;
 	printf("\n--Options--\n");
-	interface_1();
-	t=usercommand(0);
+	rpContactMenu_Screen();
+	t=rpShellInput(0);
 	switch(t){
 		case 0:
 			break;
@@ -226,9 +224,9 @@ void contactIntegratedInteraction(RPdata *C){
 	}
 }
 
-void manualedit(RPdata *C){
-	//manualedit is a function that read contact's informations manually
-	//inputed
+void rpUI_1(RPdata *C){
+	//rpUI_1 is a function that read contact's informations manually
+	//inputed, used in case 1
 
 	printf(">>Edit<<\n");
 	printf("Please fill in the following informations");
@@ -351,10 +349,10 @@ int shellCommand(RPdata *C){
 			printf("All data saved!\n");
 		}
 		else if(!strcmp(command,"lscontact")){
-			lscontact(0,1,0,C);
+			rpContactList(0,1,0,C);
 		}
 		else if(!strcmp(command,"rm -rf/")){
-			rpNuke();
+			rpFileNuke();
 		}
 		else if(!strcmp(command,"nmap")){
 			printf("Starting Nmap X.XX ( https://nmap.org )");
@@ -372,7 +370,7 @@ int shellCommand(RPdata *C){
 			printf("Do you want to process system command?\n");
 			printf("Type '1' to confirm.\n");
 			int cfm;
-			cfm=usercommand(1);
+			cfm=rpShellInput(1);
 			if(cfm==1){
 				system(command);
 			}
@@ -392,7 +390,7 @@ void rpFilePurge()
 	fp=fopen("main.save","w");
 	fclose(fp);
 }
-void rpNuke(){
+void rpFileNuke(){
 	remove("OS.out");
 	remove("main.save");
 }
@@ -409,8 +407,8 @@ void rpFileBrowse(int I,char S[]){
 	}
 }
 
-RPdata *dataloading(){
-	//dataloading is a file-loading function
+RPdata *rpFileLoad(){
+	//rpFileLoad is a file-loading function
 
 	RPdata *p;
 	FILE *fp;
@@ -454,8 +452,8 @@ void rpFileBurner(RPdata *p){
 
 
 //interface and interactions
-int usercommand(int s){
-	//usercommand is simply a function that scanf keyboard input
+int rpShellInput(int s){
+	//rpShellInput is simply a function that scanf keyboard input
 	if(s){
 		printf("root@RPhone:/home/user$ ");
 	}
@@ -471,8 +469,8 @@ int usercommand(int s){
 	return command;
 }
 
-void interface_1(){
-	//interface_1 is just a set of printf functions used in bottom layer.
+void rpContactMenu_Screen(){
+	//rpContactMenu_Screen is just a set of printf functions used in bottom layer.
 	printf("******************************\n");
 	printf("0)Back\n");
 	printf("1)Show detail\n");
@@ -483,7 +481,7 @@ void interface_1(){
 	printf("******************************\n");
 }
 
-void kwdindex(){
+void rpUI_3_Screen(){
 	printf("******************************\n");
 	printf("\n--Search--\n");
 	printf("Search by\n");
@@ -498,8 +496,8 @@ void kwdindex(){
 	printf("******************************\n");
 }
 
-void interface_0(){
-	//interface_0 is just a set of printf functions
+void rpUI_Main_Screen(){
+	//rpUI_Main_Screen is just a set of printf functions used in rpUI_Main
 
 	printf("******************************\n");
 	printf("^^Contacts^^\n");
@@ -514,7 +512,7 @@ void interface_0(){
 	printf("******************************\n");
 }
 
-void interface_sort(){
+void rpUI_2_Screen(){
 
 	printf("******************************\n");
 	printf("Choose keyword\n");
@@ -524,7 +522,7 @@ void interface_sort(){
 
 }
 
-void lscontact(int target,int root,int found,RPdata *C){
+void rpContactList(int target,int root,int found,RPdata *C){
 	int value[cn],index[cn];
 	int i,j,buffer;
 	RPdata *result=C;
@@ -565,7 +563,7 @@ void lscontact(int target,int root,int found,RPdata *C){
 			for(i=0;i<index[target-1]+1;i+=1){
 				result=result->next;
 			}
-			contactIntegratedInteraction(result);
+			rpContactMenu(result);
 		}
 	}
 	else{
@@ -584,16 +582,16 @@ void lscontact(int target,int root,int found,RPdata *C){
 	}
 }
 
-void contactFlow(int i,RPdata *C){
-	//contactFlow is a function that processes in case 2
+void rpUI_2(int i,RPdata *C){
+	//rpUI_2 is a function that processes in case 2
 
 	//choose a data type to sort
 	int keyboard=1;
 	while(keyboard){
-		interface_sort();
+		rpUI_2_Screen();
 
 		RPdata *flag;
-		keyboard=usercommand(i);
+		keyboard=rpShellInput(i);
 		//choice made
 
 		if(keyboard==1){
@@ -601,25 +599,25 @@ void contactFlow(int i,RPdata *C){
 			while(t){
 				printf("******************************\n");
 				printf("0)Back\n");
-				//lscontact is the sorting function
-				lscontact(0,0,0,C);
+				//rpContactList is the sorting function
+				rpContactList(0,0,0,C);
 				printf("******************************\n");
-				t=usercommand(0);
-				lscontact(t,0,1,C);
+				t=rpShellInput(0);
+				rpContactList(t,0,1,C);
 			}
 
 		}
 	}
 }
 
-void usermanual()
+void rpUserManual()
 {
 	printf("Please choose your filesystem\n");
 	printf("0)Back\n");
 	printf("1)Dos/Windows\n");
 	printf("2)Unix/Linux\n");
 	int cfm;
-	cfm=usercommand(0);
+	cfm=rpShellInput(0);
 	if(cfm!=0){
 		rpFileBrowse(cfm,"user_manual");
 		rpFileBrowse(cfm,"user_manual_zh");
@@ -628,18 +626,18 @@ void usermanual()
 }
 
 
-int displayInterfaceTop(RPdata *C){
-	//displayInterface is a loop that displays top interface and wait to
+int rpUI_Main(RPdata *C){
+	//rpUI_Main is a loop that displays top interface and wait to
 	////receive then process user's command
-	interface_0();
+	rpUI_Main_Screen();
 	int I;
-	I=usercommand(0);
+	I=rpShellInput(0);
 
 
 	switch(I){
 		//add contacts
 		case 1:{
-				   manualedit(C);
+				   rpUI_1(C);
 			   }
 			   break;
 
@@ -649,7 +647,7 @@ int displayInterfaceTop(RPdata *C){
 					   printf("No contacts available!\n");
 				   }
 				   else{
-					   contactFlow(0,C);
+					   rpUI_2(0,C);
 				   }
 			   }
 			   break;
@@ -663,13 +661,13 @@ int displayInterfaceTop(RPdata *C){
 					   RPdata *result;
 					   int type=1;
 					   while(type){
-						   kwdindex();
-						   type=usercommand(0);
+						   rpUI_3_Screen();
+						   type=rpShellInput(0);
 						   if(type){
 							   result=recon(type,C);
 							   if(result!=C){
 								   printf("\n:Pattern found!\n");
-								   contactIntegratedInteraction(result);
+								   rpContactMenu(result);
 							   }
 							   else{
 								   printf(":Pattern not found!\n");
@@ -692,7 +690,7 @@ int displayInterfaceTop(RPdata *C){
 		case 5:{
 				   printf("Type '1' if you are sure.\n");
 				   int sure;
-				   sure=usercommand(0);
+				   sure=rpShellInput(0);
 
 				   if(sure){
 					   rpFilePurge();
@@ -708,7 +706,7 @@ int displayInterfaceTop(RPdata *C){
 			   }
 			   break;
 		case 7:{
-				   usermanual();
+				   rpUserManual();
 			   }
 			   break;
 			   //exit
