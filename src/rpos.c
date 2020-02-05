@@ -163,7 +163,7 @@ void rpContactDelete(RPdata *C){
 }
 
 
-RPdata *recon(int I,RPdata *C){
+RPdata *rpUI_3(int I,RPdata *C){
 	int i=I;
 	RPdata *scout;
 	scout=C->next;
@@ -554,7 +554,7 @@ int rpUI_Main(RPdata *C){
 						   rpUI_3_Screen();
 						   type=rpShellInput(0);
 						   if(type){
-							   result=recon(type,C);
+							   result=rpUI_3(type,C);
 							   if(result!=C){
 								   printf("\n:Pattern found!\n");
 								   rpContactMenu(result);

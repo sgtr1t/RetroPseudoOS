@@ -46,6 +46,8 @@ void rpContactMenu(RPdata *C);
 
 void rpUI_1(RPdata *C);
 
+RPdata *rpUI_3(int I, RPdata *C);
+
 void rpShowName(RPdata *C);
 
 void rpContactCall(RPdata *C);
