@@ -220,7 +220,7 @@ RPdata *rpUI_3(int I,RPdata *C){
 
 int shellCommand(RPdata *C){
 	while(1){
-		printf("root@RPhone:/home/user$ ");
+		printf("root@%s:/home/user$ ", domain);
 		char command[MAX];
 		rpStringInput(command);
 
@@ -305,18 +305,30 @@ RPdata *rpFileLoad(){
 	p=rpContactInit();
 	fp=fopen("main.save","rw+");
 	int i;
-	fread(&cn,sizeof(int),1,fp);
 	if(fp!=NULL){
-		for(i=0;i<cn;i+=1){
-			RPdata *buffer;
-			buffer=(RPdata *)malloc(sizeof(RPdata));
-			fread(&buffer->data,sizeof(RPvalue),1,fp);
-			buffer->next=p->next;
-			buffer->prior=p;
-			p->next=buffer;
-			buffer->next->prior=buffer;
+
+		fread(&cn,sizeof(int),1,fp);
+		fread(&p->data, sizeof(RPvalue), 1, fp);
+		if(cn != -1)
+		{
+			for(i=0;i<cn;i+=1){
+				RPdata *buffer;
+				buffer=(RPdata *)malloc(sizeof(RPdata));
+				fread(&buffer->data,sizeof(RPvalue),1,fp);
+				buffer->next=p->next;
+				buffer->prior=p;
+				p->next=buffer;
+				buffer->next->prior=buffer;
+			}
+		}
+		else{
+			printf("You need to create an account yourself!\n\n");
+			rpContactInput(p);
+			cn += 1;
 		}
 	}
+	strcpy(user, p->data.name);
+	strcpy(domain, p->data.city);
 	fclose(fp);
 	return p;
 }
@@ -329,6 +341,7 @@ void rpFileBurner(RPdata *p){
 	RPdata *flag;
 	flag=p;
 	fwrite(&cn,sizeof(int),1,fp);
+	fwrite(&p->data, sizeof(RPvalue), 1, fp);
 	while(flag->next!=p){
 		flag=flag->next;
 		fwrite(&flag->data,sizeof(RPvalue),1,fp);
@@ -345,10 +358,10 @@ void rpFileBurner(RPdata *p){
 int rpShellInput(int s){
 	//rpShellInput is simply a function that scanf keyboard input
 	if(s){
-		printf("root@RPhone:/home/user$ ");
+		printf("root@%s:/home/user$ ", &domain);
 	}
 	else{
-		printf("user@RPhone:~$ ");
+		printf("%s@%s:~$ ", user, domain);
 	}
 	int command;
 	scanf("%d",&command);

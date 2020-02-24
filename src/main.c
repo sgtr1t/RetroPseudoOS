@@ -5,7 +5,9 @@
 #define MAX 100
 
 //globle variable
-int cn=0;
+int cn = -1;
+char user[MAX] = "user";
+char domain[MAX] = "RPhone";
 
 //main function
 int main()

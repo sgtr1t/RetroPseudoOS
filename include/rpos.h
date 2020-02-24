@@ -6,6 +6,8 @@
 #endif
 
 extern int cn;
+extern char user[];
+extern char domain[];
 
 //data structure block
 //********************

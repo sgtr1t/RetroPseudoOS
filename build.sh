@@ -1,3 +1,4 @@
+#!/bin/bash
 mkdir ../run
 gcc -o ../run/OS.out src/main.c src/rpos.c
 touch ../run/main.save
