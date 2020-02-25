@@ -9,9 +9,12 @@
 #endif
 
 
-//case functions
+/* case functions */
 RPdata *rpContactInit(){
-	//basically this function generate the first empty doublelinklist.
+	/* basically this function generate the first empty doublelinklist,
+	 * which is totally unecessary, but it was required for the assignment,
+	 * and I'm too lazy to deal with it.
+	 */
 
 	RPdata *firstData;
 	firstData=(RPdata *)malloc(sizeof(RPdata));
@@ -21,8 +24,9 @@ RPdata *rpContactInit(){
 }
 
 RPdata *rpContactGen(RPdata *C){
-	//rpContactGen is a function that generate new contatct
-	//the pointers changeing are intergrated so no need to worry about it
+	/* rpContactGen is a function that generate a new contatct(or user),
+	 * the pointers changeing are intergrated so no need to worry about it.
+	 */
 
 	RPdata *newData;
 	newData=(RPdata *)malloc(sizeof(RPdata));
@@ -34,14 +38,20 @@ RPdata *rpContactGen(RPdata *C){
 }
 
 void rpStringInput(char C[]){
-	//rpStringInput function is simply a function that receive a string
-	//I don't even know why I wrote it, but I did anyway
+	/* rpStringInput function is simply a function that receive a string,
+	 * I don't even know why I wrote it, maybe it's because gcc always warning
+	 * about the gets() function, I tried to wrote some function to replace it
+	 * but that just killed me lots of brain cells and I gave up... and I'm 
+	 * thinking maybe someday I'm gonna fix this.
+	 */
 
 	gets(C);
 }
 
 long long rpLLInput(){
-	//rpLLInput is a function that receive a long long integer
+	/* rpLLInput is a function that receive a long long integer
+	 * my teacher thought it's dumb though...
+	 */
 	long long L;
 
 	scanf("%lld",&L);
@@ -70,6 +80,13 @@ void rpContactInput(RPdata *newbee){
 
 	printf("\nEIP: ");
 	newbee->data.eip=rpLLInput();
+
+	/* new stuffs */
+	printf("\nUsername: ");
+	rpStringInput(newbee->data.username);
+
+	printf("\nDomainname: ");
+	rpStringInput(newbee->data.domainname);
 
 	printf("\n:Contact added!\n");
 }
@@ -115,8 +132,9 @@ void rpContactMenu(RPdata *C){
 }
 
 void rpUI_1(RPdata *C){
-	//rpUI_1 is a function that read contact's informations manually
-	//inputed, used in case 1
+	/* rpUI_1 is a function that read contact's informations manually
+	 * inputed, used in case 1
+	 */
 
 	printf(">>Edit<<\n");
 	printf("Please fill in the following informations");
@@ -152,6 +170,8 @@ void rpContactDetail(RPdata *C){
 	printf("QQ: %lld\n",C->data.qq);
 	printf("City: %s\n",C->data.city);
 	printf("eip: %lld\n",C->data.eip);
+	printf("Username: %s\n",C->data.username);
+	printf("Domainname: %s\n",C->data.domainname);
 	printf("******************************\n");
 }
 
@@ -267,13 +287,13 @@ int shellCommand(RPdata *C){
 		}
 	}
 }
-//case functions module ene
+/* case functions */
 
 
 
 
 
-//initialization and file manipulation
+/* initialization and file manipulation */
 void rpFilePurge()
 {
 	FILE *fp;
@@ -298,7 +318,7 @@ void rpFileBrowse(int I,char S[]){
 }
 
 RPdata *rpFileLoad(){
-	//rpFileLoad is a file-loading function
+	/* rpFileLoad is a file-loading function */
 
 	RPdata *p;
 	FILE *fp;
@@ -327,14 +347,14 @@ RPdata *rpFileLoad(){
 			cn += 1;
 		}
 	}
-	strcpy(user, p->data.name);
-	strcpy(domain, p->data.city);
+	strcpy(user, p->data.username);
+	strcpy(domain, p->data.domainname);
 	fclose(fp);
 	return p;
 }
 
 void rpFileBurner(RPdata *p){
-	//burner is a file-writing function
+	/* burner is a file-writing function */
 
 	FILE *fp;
 	fp=fopen("main.save","rw+");
@@ -348,15 +368,18 @@ void rpFileBurner(RPdata *p){
 	}
 	fclose(fp);
 }
-//initialization and file manipulation module end
+/* initialization and file manipulation */
 
 
 
 
 
-//interface and interactions
+/* interface and interactions */
 int rpShellInput(int s){
-	//rpShellInput is simply a function that scanf keyboard input
+	/* rpShellInput is simply a function that get keyboard integer input
+	 * and simulate the UNIX style terminal
+	 */
+
 	if(s){
 		printf("root@%s:/home/user$ ", &domain);
 	}
@@ -373,7 +396,8 @@ int rpShellInput(int s){
 }
 
 void rpContactMenu_Screen(){
-	//rpContactMenu_Screen is just a set of printf functions used in bottom layer.
+	/* rpContactMenu_Screen is just a set of printf functions used in bottom layer.
+	 */
 	printf("******************************\n");
 	printf("0)Back\n");
 	printf("1)Show detail\n");
@@ -400,7 +424,8 @@ void rpUI_3_Screen(){
 }
 
 void rpUI_Main_Screen(){
-	//rpUI_Main_Screen is just a set of printf functions used in rpUI_Main
+	/*rpUI_Main_Screen is just a set of printf functions used in rpUI_Main
+	 */
 
 	printf("******************************\n");
 	printf("^^Contacts^^\n");
@@ -429,11 +454,9 @@ void rpContactList(int target,int root,int found,RPdata *C){
 	int value[cn],index[cn];
 	int i,j,buffer;
 	RPdata *result=C;
-	//printf("%d",cn);
 	for(i=0;i<cn;i+=1){
 		result=result->next;
 		value[i]=result->data.name[0];
-		//printf("%s %c %d\n",result->data.name,result->data.name[0],value[i]);
 	}
 	result=C;
 
@@ -451,13 +474,6 @@ void rpContactList(int target,int root,int found,RPdata *C){
 			}
 		}
 	}
-	/*for(i=0;i<cn;i+=1){
-	  printf("i: %d, index: %d\n, valuei: %d ",i,index[i],value[i]);
-	  result=result->next;
-	  rpShowName(result);
-	  }
-	  result=C;
-	  */
 	if(found){
 
 		if(target!=0){
@@ -472,23 +488,21 @@ void rpContactList(int target,int root,int found,RPdata *C){
 	else{
 		for(i=0;i<cn;i+=1){
 			result=C;
-			//printf("~~~~~~~~~~~~~~~~~~\n");
 			for(j=0;j<index[i]+1;j+=1){
 				result=result->next;
-				//rpShowName(result);
 			}
 			printf("%d",i+1);
 			printf(")");
 			rpShowName(result);
-			//printf("i: %d, index: %d, char: %c, value: %d, v2char: %c\n",i,index[i],result->data.name[0],value[index[i]],value[index[i]]);
 		}
 	}
 }
 
 void rpUI_2(int i,RPdata *C){
-	//rpUI_2 is a function that processes in case 2
+	/* rpUI_2 is a function that processes in case 2
+	 * you canchoose a data type to sort
+	 */
 
-	//choose a data type to sort
 	int keyboard=1;
 	while(keyboard){
 		rpUI_2_Screen();
@@ -502,7 +516,7 @@ void rpUI_2(int i,RPdata *C){
 			while(t){
 				printf("******************************\n");
 				printf("0)Back\n");
-				//rpContactList is the sorting function
+				/* rpContactList is the sorting function */
 				rpContactList(0,0,0,C);
 				printf("******************************\n");
 				t=rpShellInput(0);
@@ -530,21 +544,22 @@ void rpUserManual()
 
 
 int rpUI_Main(RPdata *C){
-	//rpUI_Main is a loop that displays top interface and wait to
-	////receive then process user's command
+	/* rpUI_Main is a loop that displays top interface and wait to
+	 * receive then process user's command
+	 */
 	rpUI_Main_Screen();
 	int I;
 	I=rpShellInput(0);
 
 
 	switch(I){
-		//add contacts
+		/* add contacts */
 		case 1:{
 				   rpUI_1(C);
 			   }
 			   break;
 
-			   //show contacts
+			   /* show contacts */
 		case 2:{
 				   if(C->next==C){
 					   printf("No contacts available!\n");
@@ -555,7 +570,7 @@ int rpUI_Main(RPdata *C){
 			   }
 			   break;
 
-			   //search contacts
+			   /* search contacts */
 		case 3:{
 				   if(C->next==C){
 					   printf("No contacts available!\n");
@@ -582,7 +597,7 @@ int rpUI_Main(RPdata *C){
 			   }
 			   break;
 
-			   //save to file
+			   /* save to file */
 		case 4:{
 				   rpFileBurner(C);
 				   printf(":All data saved!\n");
@@ -599,6 +614,12 @@ int rpUI_Main(RPdata *C){
 					   rpFilePurge();
 					   printf("All data purged!\n");
 				   }
+				   sure = 0;
+				   printf("Type '1' to shutdown.\n");
+				   sure = rpShellInput(0);
+				   if(sure){
+					   return 0;
+				   }
 			   }
 			   break;
 
@@ -612,7 +633,7 @@ int rpUI_Main(RPdata *C){
 				   rpUserManual();
 			   }
 			   break;
-			   //exit
+			   /* exit */
 		case 0:{
 				   return 0;
 			   }
@@ -620,6 +641,6 @@ int rpUI_Main(RPdata *C){
 	}
 	return 1;
 }
-//interface and interactions module end
+/* interface and interactions */
 
 

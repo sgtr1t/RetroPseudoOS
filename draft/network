@@ -1,0 +1,80 @@
+Preface.
+
+This is my design of a network communication between 2 processes.
+I totally have no idea how this should work.
+But I want to implement the network using the P2P model.
+Maybe the RPvalue should have some more elements like IP address and portnum.
+
+
+
+The Implementation of Anonymity.
+
+Just to be sure, this implementation doesn't prevent someone else on the Inter-
+net spying the communication. It just makes sure that either side takes no 
+advantage of the other one. At least it prevent you from calling someone 
+pretend to be the guy/girl you think it is. And if someone calls you with the 
+right "callsign", at least you know it knows who you're. Let's say if you don't 
+trust it for it claims to be, you can still hang up and have nothing to loose.
+
+How to identify friendly or foe? Ask a question and wait for the password, if 
+the password is correct then it's friendly, and it's a successful connection, 
+if not, the connection should abort. The question should be random, and the 
+correct password should depend on the target username and domain that the 
+active side(let me call it "client") assumed. After a successul connection the 
+"client" should give "server" it's identity, because it knows about "server", 
+but "server" knows nothing about it's identity, neither side should take such 
+advantage.
+
+
+
+Further Details.
+
+For every process running in every computer, the user and domain should be as
+best as unique, and the IP address and portnum will be. Every process is both a
+client and a server, every client has a list of contacts(other users) of its 
+own. If not, then one will be able to create one, and then one can make further
+contact. Once the connection is a success, the active side will send some basic
+information about itself, let's say username and domain. Then on the passive 
+side, if the username, domain, IP address, port numbers can be found stored in 
+the database, then the user will be notified that one of it's contact want to
+have a conversation, and user can choose to either answer the call or hang up.
+If the database doesn't have the result, then it will notify the user the call
+is from a stranger. The notification format is like this: "stranger/contact
+user@domain from xxx.xxx.xxx.xxx(IP):xx(port) is requesting for connection, Yes
+or No? (Y/N)".
+
+
+
+Intuition.
+
++---------------------+               +----------------------+
+|"Client"(active user)|               |"Server"(passive user)|
++---------------------+               +----------------------+
+           |                                      |
+           | 1.ask a question                     |
+           | ------------------------------------>|
+           |                                      |
+           |                2.answer the question |
+           |<------------------------------------ |
+     +-----+                                      |
++----+---+                                        |
+|correct?|(integrated judgement)                  |
++--------+-+                                      |
+|no        |yes                                   |
+v          |                                      |
+3.abort    | 3.reveal indentity                   |
+           | ------------------------------------>|
+           |                                      +-----+
+           |                                        +---+---+
+           |                                        |answer?|(user's choice)
+           |                                      +-+-------+
+           |                                      |yes      |no
+           |                                      |         v
+           |             4.successfully connected |         4.abort
+           |<------------------------------------ |
+           |                                      |
+           |     5.further information sharing    |
+           | ------------------------------------>|
+           |<------------------------------------ |
+           |                                      |
+           v                                      v

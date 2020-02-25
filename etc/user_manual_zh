@@ -14,7 +14,6 @@ RPhone(TM) XE 移动电话机（原型机）使用手册
 前言：
 
 RetroOS的设计核心就是其搭载两种不同的模式
-1.User Interface(UI) mode
 1.用户界面模式（UI 模式）
 2.命令行模式
 

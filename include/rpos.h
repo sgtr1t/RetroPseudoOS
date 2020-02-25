@@ -6,11 +6,24 @@
 #endif
 
 extern int cn;
-extern char user[];
-extern char domain[];
+/* "cn" is the contact number we've got in the current process,
+ * it's not the number stored in the .save file int the storage,
+ * it's -1 when there is no user account.
+ */
 
-//data structure block
-//********************
+extern char user[];
+/* "user" is the username of the current account,
+ * it better be unique
+ */
+
+extern char domain[];
+/* "domain" is the name of the current RPhone,
+ * it also better be unique
+ */
+
+
+/* data structures */
+
 typedef struct {
 	char name[MAX];
 	long long cell;
@@ -19,19 +32,25 @@ typedef struct {
 	long long qq;
 	char city[MAX];
 	long long eip;
-}RPvalue;//was named contact
+
+	/* The following elements are new, and may not be compatible with the data
+	 * from previous versions, but add them anyway.
+	 */
+	char username[MAX];
+	char domainname[MAX];
+}RPvalue; /* It used to be "contact" */
 
 typedef struct RPdata{
 	RPvalue data;
 	struct RPdata *prior;
 	struct RPdata *next;
-}RPdata;//was named cabin
-//********************
-//data structure block end
+}RPdata; /* It used to be "cabin" */
+
+/* data structure block end */
 
 
-//functions
-//********************
+/* functions are below */
+
 RPdata *rpContactInit();
 
 RPdata *rpContactGen(RPdata *C);
@@ -87,8 +106,7 @@ void rpFileBurner();
 void rpFileNuke();
 
 void rpFileBrowse();
-//********************
-//funcion block end
+/* well, that's all */
 
 #endif
 
